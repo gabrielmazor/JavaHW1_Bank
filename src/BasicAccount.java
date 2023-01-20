@@ -1,31 +1,41 @@
-public class BasicAccount implements IAccount{
+public class BasicAccount extends PremiumAccount {
+    double withdrawalLimit;
+    double creditLimit;
 
-    private double balance;
-    private int accountNumber;
-    private double withdrawalLimit;
+    {
+        creditLimit = 0;
+    }
 
-    public BasicAccount(int accountNumber, double withdrawalLimit){
-        this.accountNumber = accountNumber;
+    public BasicAccount(int accountNumber, double withdrawalLimit) {
+        super(accountNumber);
         this.withdrawalLimit = withdrawalLimit;
-        this.balance = 0;
     }
-    public void Deposit(double amount){
-        this.balance += amount;
-    }
-    public double Withdraw(double amount){
-        if(amount > this.withdrawalLimit){
-            amount = withdrawalLimit;
+
+
+    @Override
+    public double Withdraw(double amount) {
+        if(this.balance - amount >= this.creditLimit){
+            if(amount <= this.withdrawalLimit){
+                this.balance -= amount;
+                return amount;
+            }
+            else{
+                amount = this.withdrawalLimit;
+                this.balance -= amount;
+                return amount;
+            }
         }
-        if(amount > this.balance){
-            amount = balance;
+        else{
+            amount = this.balance - this.creditLimit;
+            if(amount >= this.withdrawalLimit){
+                amount = this.withdrawalLimit;
+                this.balance -= amount;
+                return amount;
+            }
+            else{
+                this.balance -= amount;
+                return amount;
+            }
         }
-        this.balance -= amount;
-        return amount;
-    }
-    public double GetCurrentBalance(){
-        return this.balance;
-    }
-    public int GetAccountNumber(){
-        return this.accountNumber;
     }
 }

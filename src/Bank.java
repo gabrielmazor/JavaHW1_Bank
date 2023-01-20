@@ -20,7 +20,7 @@ public class Bank implements IBank{
         }
         if(toRemove != null){
             if(toRemove.GetCurrentBalance()<0){
-                System.out.println("The account can not be closed tue to debt");
+                System.out.println("The account can not be closed due to debt");
             }
             else{
                 accounts.remove(toRemove);
